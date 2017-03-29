@@ -16,7 +16,7 @@ As for the quality of the generator please refer to the results on
 [Sebastiano Vigna's page](http://xoroshiro.di.unimi.it/).
 
 In addition to the RNG itself there are two utility classes that
-produce 64-bit seeds for feeding the RNG. One extracts entropy
+produce 64-bit seeds for initializing the RNG. One extracts entropy
 from the system scheduler measuring it with x86 rdtsc instruction.
 The other uses std::random_device from the standard C++ library.
 
