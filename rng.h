@@ -33,7 +33,7 @@ struct tsc_seed
 {
 	using result_type = std::uint64_t;
 
-	std::uint64_t operator()()
+	result_type operator()()
 	{
 		std::uint64_t base = _rdtsc();
 		std::uint64_t seed = base & 0xff;
@@ -52,7 +52,7 @@ struct random_device_seed
 {
 	using result_type = std::uint64_t;
 
-	std::uint64_t operator()()
+	result_type operator()()
 	{
 		std::random_device rd;
 		if (sizeof(result_type) > sizeof(std::random_device::result_type))
@@ -87,7 +87,7 @@ struct rng64
 
 //
 // A random number generator with 128-bit internal state. It is based on
-// the code from here:  http://xoroshiro.di.unimi.it/xoroshiro128plus.c
+// the code from here: http://xoroshiro.di.unimi.it/xoroshiro128plus.c
 //
 struct rng128
 {
