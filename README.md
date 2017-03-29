@@ -27,3 +27,6 @@ rng::tsc_seed seed;
 rng::rng128 gen(seed());
 std::cout << "a rundom number: " << gen() << "\n";
 ```
+
+On Linux random_device_seed is faster than tsc_seed. But on macOS
+it is other way round.
