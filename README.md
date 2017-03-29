@@ -1,7 +1,7 @@
 # RNG
 A simple C++ random number generator
 
-The RNG uses Sebastiano Vigna's [xoroshiro128+ algorithm](http://xoroshiro.di.unimi.it/).
+The RNG uses Sebastiano Vigna's [xoroshiro128+ algorithm](http://xoroshiro.di.unimi.it/xoroshiro128plus.c).
 
 It produces 64-bit integers. In my simple test its performance is more
 than five times higher than mt19937_64 from the C++ standard library:
