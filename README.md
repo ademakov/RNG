@@ -1,5 +1,5 @@
 # RNG
-A simple C++ random number generator It uses the latest and fastest
+A simple C++ random number generator. It uses the latest and fastest
 Sebastiano Vigna's algorithm: [xoroshiro128+](http://xoroshiro.di.unimi.it/xoroshiro128plus.c).
 
 It produces 64-bit integers. In my simple test it is more than five times
