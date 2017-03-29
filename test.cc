@@ -40,16 +40,18 @@ main()
 			  << " sec\n";
 	}
 
-	const int n_gen = 500'000'000;
+	const int n_gen = 1'000'000'000;
 	std::cout << "\n";
 	{
 		rng::rng128 rng;
-		volatile uint64_t no_opt = 0;
+		uint64_t no_opt = 0;
 
 		auto start = std::chrono::steady_clock::now();
 
-		for (int i = 0; i < n_gen; i++)
+		for (int i = 0; i < n_gen; i++) {
+			std::atomic_signal_fence(std::memory_order_relaxed);
 			no_opt |= rng();
+		}
 
 		auto end = std::chrono::steady_clock::now();
 		std::chrono::duration<double> diff = end - start;
@@ -57,12 +59,14 @@ main()
 	}
 	{
 		std::mt19937_64 rng;
-		volatile uint64_t no_opt = 0;
+		uint64_t no_opt = 0;
 
 		auto start = std::chrono::steady_clock::now();
 
-		for (int i = 0; i < n_gen; i++)
+		for (int i = 0; i < n_gen; i++) {
+			std::atomic_signal_fence(std::memory_order_relaxed);
 			no_opt |= rng();
+		}
 
 		auto end = std::chrono::steady_clock::now();
 		std::chrono::duration<double> diff = end - start;
