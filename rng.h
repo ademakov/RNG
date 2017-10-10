@@ -1,9 +1,12 @@
+#pragma once
+
 //
 // The code in this file is free and unencumbered software released
 // into the public domain.
 //
 // <http://creativecommons.org/publicdomain/zero/1.0/>.
 //
+
 #ifndef RNG_H
 #define RNG_H
 
@@ -11,7 +14,44 @@
 #include <random>
 #include <thread>
 
+#if defined(_MSC_VER)
+/* Microsoft C/C++-compatible compiler
+ * Adaptive implementations
+ */
+#include <intrin.h>
+#define _rdtsc() __rdtsc()
+
+#elif defined(__GNUC__) && (defined(__x86_64__) || defined(__i386__))
+/* GCC-compatible compiler, targeting x86/x86-64
+ * NO implementation needed
+ */
 #include <x86intrin.h>
+
+#elif defined(__GNUC__) && defined(__ARM_NEON__)
+/* GCC-compatible compiler, targeting ARM with NEON
+ * Adaptive implementations
+ */
+#include <arm_neon.h>
+
+#elif defined(__GNUC__) && defined(__IWMMXT__)
+/* GCC-compatible compiler, targeting ARM with WMMX
+ * Adaptive implementations
+ */
+#include <mmintrin.h>
+
+#elif (defined(__GNUC__) || defined(__xlC__)) && (defined(__VEC__) || defined(__ALTIVEC__))
+/* XLC or GCC-compatible compiler, targeting PowerPC with VMX/VSX
+ * Adaptive implementations
+ */
+#include <altivec.h>
+
+#elif defined(__GNUC__) && defined(__SPE__)
+/* GCC-compatible compiler, targeting PowerPC with SPE
+ * Adaptive implementations
+ */
+#include <spe.h>
+
+#endif
 
 namespace rng {
 
@@ -72,9 +112,7 @@ struct rng64
 
 	std::uint64_t state;
 
-	rng64(std::uint64_t seed = 1) : state{seed}
-	{
-	}
+	rng64(std::uint64_t seed = 1) : state{seed} {}
 
 	result_type operator()()
 	{
@@ -95,13 +133,9 @@ struct rng128
 
 	std::uint64_t state[2];
 
-	rng128(std::uint64_t seed[2]) : state{seed[0], seed[1]}
-	{
-	}
+	rng128(std::uint64_t seed[2]) : state{seed[0], seed[1]} {}
 
-	rng128(std::uint64_t s0, std::uint64_t s1) : state{s0, s1}
-	{
-	}
+	rng128(std::uint64_t s0, std::uint64_t s1) : state{s0, s1} {}
 
 	rng128(std::uint64_t seed = 1)
 	{
